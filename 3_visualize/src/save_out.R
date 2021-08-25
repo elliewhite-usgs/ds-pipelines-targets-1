@@ -1,5 +1,5 @@
 # Save the processed data
-save_out_processed_data <- function(data, out_dir="3_visualize/out/model_summary_results.csv"){
+save_out_processed_data <- function(data, out_file="3_visualize/out/model_summary_results.csv"){
   readr::write_csv(data, file = out_dir)
 }
 
