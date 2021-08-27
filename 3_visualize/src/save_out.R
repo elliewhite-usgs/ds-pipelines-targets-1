@@ -1,6 +1,7 @@
 # Save the processed data
 save_out_processed_data <- function(data, out_filepath="3_visualize/out/model_summary_results.csv"){
   readr::write_csv(data, file = out_filepath)
+  return(out_filepath)
 }
 
 # Save the model diagnostics
@@ -21,4 +22,5 @@ save_out_model_diagnostics <- function(data, out_filepath="3_visualize/out/model
     The PGDL prediction accuracy was more robust compared to PB when only two profiles were provided for training ({{pgdl_2mean}} and {{pb_2mean}}°C, respectively). '
   
   whisker.render(template_1 %>% str_remove_all('\n') %>% str_replace_all('  ', ' '), render_data ) %>% cat(file = out_filepath)
+  return(out_filepath)
 }
