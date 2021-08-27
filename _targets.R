@@ -1,12 +1,16 @@
 library(targets)
-source("code.R")
+source("1_fetch/src/fetch_data.R")
+source("2_process/src/make_eval_data.R")
+source("3_visualize/src/create_plot.R")
+source("3_visualize/src/save_out.R")
+
 tar_option_set(packages = c("tidyverse", "sbtools", "whisker"))
 
 list(
   # Get the data from ScienceBase
   tar_target(
     model_RMSEs_csv,
-    download_data(out_filepath = "model_RMSEs.csv"),
+    fetch_data(out_filepath = "1_fetch/out/model_RMSEs.csv"),
     format = "file"
   ), 
   # Prepare the data for plotting
@@ -17,19 +21,19 @@ list(
   # Create a plot
   tar_target(
     figure_1_png,
-    make_plot(out_filepath = "figure_1.png", data = eval_data), 
+    create_plot(data = eval_data, out_filepath = "3_visualize/out/figure_1.png"), 
     format = "file"
   ),
   # Save the processed data
   tar_target(
     model_summary_results_csv,
-    write_csv(eval_data, file = "model_summary_results.csv"), 
+    save_out_processed_data(data = eval_data, out_filepath = "3_visualize/out/model_summary_results.csv"), 
     format = "file"
   ),
   # Save the model diagnostics
   tar_target(
     model_diagnostic_text_txt,
-    generate_model_diagnostics(out_filepath = "model_diagnostic_text.txt", data = eval_data), 
+    save_out_model_diagnostics(data = eval_data, out_filepath = "3_visualize/out/model_diagnostic_text.txt"), 
     format = "file"
   )
 )
